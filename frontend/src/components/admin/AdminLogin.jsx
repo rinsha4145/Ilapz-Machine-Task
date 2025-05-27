@@ -38,11 +38,11 @@ const AdminLogin = () => {
       <div
         style={{
           backgroundImage:
-            "url('https://www.artavenue.com/cdn/shop/files/d4050a_8603d6c1dce748eda96429c1043c93f0_mv2_66ea8f12-0290-4c2d-954e-6da2297ff980.jpg?v=1723625285&width=1200')",
-          backgroundSize: "cover",
+            "url('https://img.freepik.com/premium-vector/contemporary-home-furniture-hand-drawn-vector-seamless-pattern-home-interior-design-elements-backdrop-modern-house-furnishing-accessories-background-vintage-armchair-coffee-table-texture_198278-8788.jpg?uid=R172230385&ga=GA1.1.1354253711.1741751599&semt=ais_hybrid&w=740')",
+          backgroundSize:"cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          opacity: 0.3,
+          opacity: 0.5,
           position: "absolute",
           top: 0,
           left: 0,

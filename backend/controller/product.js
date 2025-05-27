@@ -4,16 +4,17 @@ import Product from '../model/Product.js';
 export const getAllProducts = async (req, res) => {
   try {
     const { page = 1, limit = 20, q } = req.query;
-    const query = q
-      ? {
-          $or: [
-            { name: { $regex: q, $options: 'i' } },
-            { description: { $regex: q, $options: 'i' } }
-          ]
-        }
-      : {};
 
-    const products = await Product.find(query)
+    const baseQuery = { isDelete: false };
+
+    if (q) {
+      baseQuery.$or = [
+        { name: { $regex: q, $options: 'i' } },
+        { description: { $regex: q, $options: 'i' } }
+      ];
+    }
+
+    const products = await Product.find(baseQuery)
       .skip((page - 1) * limit)
       .limit(Number(limit))
       .sort({ createdAt: -1 });
@@ -23,6 +24,7 @@ export const getAllProducts = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
 
 // GET product by ID
 export const getProductById = async (req, res) => {
@@ -181,20 +183,35 @@ export const updateProduct = async (req, res) => {
 // DELETE product
 export const deleteProduct = async (req, res) => {
   try {
-    const product = await Product.findByIdAndDelete(req.params.id);
-    if (!product) return res.status(404).json({ message: 'Product not found' });
+    const { id } = req.params;
+    console.log("Deleting Product ID:", id);
 
-    req.io.emit('productDeleted', product._id);
-    res.json({ message: 'Product deleted' });
+    const product = await Product.findByIdAndUpdate(
+      id,
+      { isDelete: true },
+      { new: true }
+    );
+
+    if (!product) {
+      console.log("Product not found");
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    // Emit to clients via socket
+    req.io.emit('productListUpdated', product._id);
+    console.log("Emitted deletion event for:", product._id);
+
+    return res.json({ message: 'Product marked as deleted' });
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+    console.error("Server error:", err);
+    return res.status(500).json({ message: 'Server error' });
   }
 };
+
  
                             //filterning and searching routes//
 
-// Get all unique category
-// Get all unique category (no filter, so no need for body params)
+// Get all unique category 
 export const getcategory = async (req, res) => {
   console.log("🔍 getcategory endpoint hit");
   try {

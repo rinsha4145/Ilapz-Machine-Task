@@ -275,9 +275,6 @@ helperText={touched.material && errors.material}
 </div>
 </div>
 
-php-template
-Copy
-Edit
             {/* Pricing */}
             <div>
               <h2 className="text-xl font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200">
@@ -342,7 +339,7 @@ Edit
                     className="hidden"
                   />
                   <span className="text-gray-500 text-sm">
-                    You can upload multiple images.
+                    You can add maximum 5  images.
                   </span>
                 </div>
                 {images.length > 0 && (

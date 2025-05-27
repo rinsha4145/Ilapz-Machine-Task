@@ -26,6 +26,6 @@ router
 .get('/:id', getProductById)
 .post('/add', adminAuthMiddleware, upload.array('image', 5), createProduct)
 .put('/update/:id', adminAuthMiddleware, upload.array('image', 5), updateProduct)
-.delete('/delete/:id', adminAuthMiddleware, deleteProduct)
+.put('/delete/:id', adminAuthMiddleware, deleteProduct)
 
 export default router

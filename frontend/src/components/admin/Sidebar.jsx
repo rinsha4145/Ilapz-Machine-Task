@@ -4,10 +4,15 @@ import {
   FaBox,
   FaSignOutAlt,
 } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import OutsideClickHandler from "react-outside-click-handler";
 
 import { Outlet } from "react-router-dom";
+import api from "../../utils/api";
+import { useDispatch } from "react-redux";
+import handleAsync from "../../utils/handleAsync";
+import { toast } from "react-toastify";
+import { setAdmin } from "../../redux/features/authSlice";
 const AdmNavbar = () => {
   const [isOpen] = useState(false); // Sidebar toggle
   const [isMenuOpen, setIsMenuOpen] = useState(false); // Mobile menu toggle
@@ -16,22 +21,22 @@ const AdmNavbar = () => {
     setIsMenuOpen((prev) => !prev);
   };
 
-  // const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  // const handleAdminLogout = handleAsync(async (e) => {
-  //   e.preventDefault();
-  //   const response = await api.post("/admin/admlogout");
-  //   dispatch(logoutUser());
+  const handleAdminLogout = handleAsync(async (e) => {
+    e.preventDefault();
+    const response = await api.post("/admin/logout");
+    dispatch(setAdmin());
 
-  //   if (response.status >= 200 && response.status < 300) {
-  //     toast.success("Admin Logout successful", response.data);
-  //     navigate("/");
-  //     setIsMenuOpen(false);
-  //   } else {
-  //     throw new Error(response.data.message || "An error occurred");
-  //   }
-  // });
+    if (response.status >= 200 && response.status < 300) {
+      toast.success("Admin Logout successful", response.data);
+      navigate("/");
+      setIsMenuOpen(false);
+    } else {
+      throw new Error(response.data.message || "An error occurred");
+    }
+  });
 
   return (
     <>
@@ -78,7 +83,7 @@ const AdmNavbar = () => {
               {/* Logout */}
               <li>
                 <Link
-                  // onClick={handleAdminLogout}
+                  onClick={handleAdminLogout}
                   className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-100 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6"
                 >
                   <span className="inline-flex justify-center items-center ml-4">

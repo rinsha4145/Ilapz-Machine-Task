@@ -72,7 +72,11 @@ function Header() {
                     onChange={(e) => setSelectedType(e.target.value)}
                     className="w-full p-3 border border-gray-300 rounded-lg appearance-none bg-white focus:ring-2 focus:ring-gray-500 focus:border-transparent cursor-pointer"
                   >
-                  
+                    <option>Sofa</option>
+                    <option>Chair</option>
+                    <option>Table</option>
+                    <option>Bed</option>
+                    <option>Cabinet</option>
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                     <svg
@@ -103,10 +107,10 @@ function Header() {
                     onChange={(e) => setSelectedPrice(e.target.value)}
                     className="w-full p-3 border border-gray-300 rounded-lg appearance-none bg-white focus:ring-2 focus:ring-gray-500 focus:border-transparent cursor-pointer"
                   >
-                    <option>$129 - $359</option>
-                    <option>$360 - $599</option>
-                    <option>$600 - $999</option>
-                    <option>$1000+</option>
+                    <option>₹12999 - ₹35999</option>
+                    <option>₹36000 - ₹59900</option>
+                    <option>₹60000 - ₹999000</option>
+                    <option>₹100000+</option>
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                     <svg

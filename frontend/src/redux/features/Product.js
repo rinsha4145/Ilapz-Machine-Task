@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const productSlice = createSlice({
-  name: 'products',
+  name: "products",
   initialState: [],
   reducers: {
     setProduct: (state, action) => {
@@ -15,9 +15,21 @@ const productSlice = createSlice({
         product._id === action.payload._id ? action.payload : product
       );
     },
+    softDeleteProductFromList: (state, action) => {
+      return state.map((product) =>
+        product._id.toString() === action.payload.toString()
+          ? { ...product, isDelete: true }
+          : product
+      );
+    },
   },
 });
 
-export const { setProduct, addProductToList, updateProductInList } = productSlice.actions;
+export const {
+  setProduct,
+  addProductToList,
+  updateProductInList,
+  softDeleteProductFromList,
+} = productSlice.actions;
 
 export default productSlice.reducer;

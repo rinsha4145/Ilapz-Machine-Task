@@ -15,7 +15,7 @@ function Navbar() {
         
         {/* Logo */}
         <div className="absolute left-1/2 transform -translate-x-1/2">
-          <h1 className="text-2xl font-bold text-gray-900 tracking-wider">FUPO</h1>
+          <h1 className="text-2xl font-bold text-gray-900 tracking-wider">Furnify</h1>
         </div>
         
         <div className="flex items-center space-x-4">

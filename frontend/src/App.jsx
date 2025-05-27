@@ -7,7 +7,7 @@ import AddProductForm from "./components/AddProduct";
 import AdminLogin from "./components/admin/AdminLogin";
 import AdmNavbar from "./components/admin/Sidebar";
 import ProductTable from "./components/admin/ProductTable";
-import { ToastContainer } from "react-toastify";
+import { Slide, ToastContainer } from "react-toastify";
 import UpdateProduct from "./components/admin/ProductUpdate";
 
 function App() {
@@ -32,20 +32,23 @@ function App() {
         </Route>
       </Routes>
 
-      <ToastContainer
-        autoClose={1000}
-        position="top-center"
-        hideProgressBar={true}
-        closeOnClick
-        pauseOnHover
-        draggable
-        toastStyle={{
-          width: "auto",
-          maxWidth: "90%",
-          padding: "10px 20px",
-          wordBreak: "break-word",
-        }}
-      />
+     <ToastContainer
+                 autoClose={1000}
+                 position="bottom-right"
+                 hideProgressBar={true}
+                 closeOnClick
+                 pauseOnHover
+                 draggable
+                 theme="colored"
+                 newestOnTop
+                 transition={Slide}
+                 toastStyle={{
+                   width: "auto",
+                   maxWidth: "90%",
+                   padding: "10px 20px",
+                   wordBreak: "break-word",
+                 }}
+               />
     </>
   );
 }
