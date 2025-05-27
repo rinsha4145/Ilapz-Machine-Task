@@ -118,22 +118,65 @@ export const createProduct = async (req, res) => {
 // PUT update product
 export const updateProduct = async (req, res) => {
   try {
-    const { name, description, price } = req.body;
-    const updateData = { name, description, price };
+    const {
+      name,
+      description,
+      price,
+      category,
+      shortname,
+      brand,
+      collections,
+      dimensionscm,
+      dimensionsinch,
+      type,
+      seatingheight,
+      weight,
+      oldprice,
+      off,
+      material,
+    } = req.body;
 
-    if (req.file) {
-      updateData.image = `/uploads/${req.file.filename}`;
+    const updateData = {
+      name,
+      description,
+      price,
+      category,
+      shortname,
+      brand,
+      collections,
+      dimensionscm,
+      dimensionsinch,
+      type,
+      seatingheight,
+      weight,
+      oldprice,
+      off,
+      material,
+    };
+
+    // Handle uploaded image(s)
+    if (req.files && req.files.length > 0) {
+      updateData.image = req.files.map((file) => `/uploads/${file.filename}`);
+    } else if (req.file) {
+      updateData.image = [`/uploads/${req.file.filename}`];
     }
 
-    const product = await Product.findByIdAndUpdate(req.params.id, updateData, { new: true });
-    if (!product) return res.status(404).json({ message: 'Product not found' });
+    const product = await Product.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    );
 
-    req.io.emit('productUpdated', product);
+    if (!product) return res.status(404).json({ message: "Product not found" });
+
+    req.io.emit("productUpdated", product);
     res.json(product);
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
   }
 };
+
 
 // DELETE product
 export const deleteProduct = async (req, res) => {

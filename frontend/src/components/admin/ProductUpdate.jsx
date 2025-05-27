@@ -32,8 +32,6 @@ const UpdateProduct = () => {
   const [initialValues, setInitialValues] = useState(null);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -158,7 +156,6 @@ const [hIn, wIn, dIn] = parseDimensions(data.dimensionsinch);
       if (response.status !== 200) throw new Error("Failed to update product");
 
       toast.success("Product updated successfully!");
-      navigate("/admin/product");
     } catch (err) {
       console.error(err);
       toast.error("Update failed. Please try again.");
