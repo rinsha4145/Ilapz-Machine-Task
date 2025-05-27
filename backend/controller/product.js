@@ -35,6 +35,33 @@ export const getProductById = async (req, res) => {
   }
 };
 
+export const search= async (req, res) => {
+  try {
+    const { category, material, minPrice, maxPrice } = req.query;
+
+    const filter = {};
+
+    if (category) {
+      filter.category = category;
+    }
+
+    if (material) {
+      filter.material = material;
+    }
+
+    if (minPrice || maxPrice) {
+      filter.price = {};
+      if (minPrice) filter.price.$gte = Number(minPrice);
+      if (maxPrice) filter.price.$lte = Number(maxPrice);
+    }
+
+    const products = await Product.find(filter);
+    res.json(products);
+  } catch (err) {
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
 // POST create product
 export const createProduct = async (req, res) => {
   try {
@@ -80,6 +107,71 @@ export const deleteProduct = async (req, res) => {
     req.io.emit('productDeleted', product._id);
     res.json({ message: 'Product deleted' });
   } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+ 
+                            //filterning and searching routes//
+
+// Get all unique category
+// Get all unique category (no filter, so no need for body params)
+export const getcategory = async (req, res) => {
+  console.log("🔍 getcategory endpoint hit");
+  try {
+    const category = await Product.distinct('category', { isDelete: false });
+    console.log("✅ category fetched:", category);
+    res.json(category);
+  } catch (err) {
+    console.error("❌ Error in getcategory:", err.message);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Get unique materials by categorie (from req.body)
+export const getMaterials = async (req, res) => {
+  console.log(req.body)
+  const { category } = req.body;
+  if (!category) {
+    return res.status(400).json({ message: "Missing 'category' in request body" });
+  }
+  try {
+    const materials = await Product.distinct('material', { category, isDelete: false });
+    res.json(materials);
+  } catch (err) {
+    console.error("❌ Error in getMaterials:", err.message);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Get unique brands by categorie and material (from req.body)
+export const getBrands = async (req, res) => {
+  const { category, material } = req.body;
+  if (!category || !material) {
+    return res.status(400).json({ message: "Missing 'category' or 'material' in request body" });
+  }
+  try {
+    const brands = await Product.distinct('brand', { category, material, isDelete: false });
+    res.json(brands);
+  } catch (err) {
+    console.error("❌ Error in getBrands:", err.message);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Final search with all filters (from req.body)
+export const searchProduct = async (req, res) => {
+  const { category, material, brand } = req.body;
+  const query = { isDelete: false };
+
+  if (category) query.category = category;
+  if (material) query.material = material;
+  if (brand) query.brand = brand;
+
+  try {
+    const products = await Product.find(query);
+    res.json(products);
+  } catch (err) {
+    console.error("❌ Error in searchProduct:", err.message);
     res.status(500).json({ message: 'Server error' });
   }
 };

@@ -72,11 +72,7 @@ function Header() {
                     onChange={(e) => setSelectedType(e.target.value)}
                     className="w-full p-3 border border-gray-300 rounded-lg appearance-none bg-white focus:ring-2 focus:ring-gray-500 focus:border-transparent cursor-pointer"
                   >
-                    <option>Sofa</option>
-                    <option>Chair</option>
-                    <option>Table</option>
-                    <option>Bed</option>
-                    <option>Cabinet</option>
+                  
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                     <svg

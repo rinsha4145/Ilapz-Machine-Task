@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import api, { socket } from "../utils/api";
+import { setProduct } from "../redux/features/Product";
 
 function ProductList() {
 
@@ -13,7 +14,9 @@ function ProductList() {
   const fetchProducts = async () => {
   try {
     const res = await api.get("/products");
-    dispatch(setProducts(res.data)); 
+    console.log(res)
+    dispatch(setProduct(res.data)); 
+    setProducts(res.data);
   } catch (err) {
     console.error('Failed to load products', err);
   }

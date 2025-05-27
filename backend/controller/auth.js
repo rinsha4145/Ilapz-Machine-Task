@@ -18,7 +18,7 @@ export const adminLogin = async (req, res, next) => {
   }
 
   generateToken(user, res);
-  res.status(200).json({ status: "success", message: "Admin Logged in successfully" });
+  res.status(200).json({ status: "success", message: "Admin Logged in successfully",user });
 };
 
 // admin logout

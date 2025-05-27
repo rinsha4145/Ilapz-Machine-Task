@@ -15,14 +15,14 @@ export const loginAdmin = createAsyncThunk(
 
       console.log("response of admin login", response);
 
-      if (!response || !response.data || !response.data.findAdmin) {
+      if (!response || !response.data || !response.data.user) {
         return rejectWithValue("Login failed. Please try again.");
       }
 
       // Set admin in Redux state
-      dispatch(setAdmin(response.data.findAdmin));
+      dispatch(setAdmin(response.data.user));
 
-      return response.data.findAdmin;
+      return response.data.user;
     } catch (error) {
       console.error("Admin login error:", error);
       return rejectWithValue("Login request failed");
@@ -31,7 +31,7 @@ export const loginAdmin = createAsyncThunk(
 );
 
 // Read Admin from Cookie & Dispatch
-export function initAdminFromCookie(dispatch) {
+export function initAdminFromCookie() {
   const adminCookie = Cookies.get("admin");
 
   if (adminCookie) {

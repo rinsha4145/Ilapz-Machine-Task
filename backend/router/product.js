@@ -6,7 +6,11 @@ import {
   getProductById,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  searchProduct,
+  getBrands,
+  getMaterials,
+  getcategory
 } from '../controller/product.js';
 import { adminAuthMiddleware } from '../middleware/authentication.js';
 
@@ -24,10 +28,15 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Routes
-router.get('/', getAllProducts);
-router.get('/:id', getProductById);
-router.post('/', adminAuthMiddleware, upload.single('image'), createProduct);
-router.put('/:id', adminAuthMiddleware, upload.single('image'), updateProduct);
-router.delete('/:id', adminAuthMiddleware, deleteProduct);
+router
+.post('/search',searchProduct)
+.post('/brands',getBrands)
+.post('/materials',getMaterials)
+.get('/categories',getcategory)
+.get('/', getAllProducts)
+.get('/:id', getProductById)
+.post('/', adminAuthMiddleware, upload.single('image'), createProduct)
+.put('/:id', adminAuthMiddleware, upload.single('image'), updateProduct)
+.delete('/:id', adminAuthMiddleware, deleteProduct)
 
-export default router;
+export default router
