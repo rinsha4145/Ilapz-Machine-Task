@@ -4,7 +4,7 @@ import { TextField } from "@mui/material";
 import * as Yup from "yup";
 import api from "../../utils/api";
 import { toast } from "react-toastify";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const validationSchema = Yup.object({
   category: Yup.string().required("Required"),
@@ -83,7 +83,7 @@ const [hIn, wIn, dIn] = parseDimensions(data.dimensionsinch);
           setImages(loadedImages);
         }
       } catch (err) {
-        toast.error("Failed to load product details.");
+        toast.error("Failed to load product details.",err);
       }
     };
 

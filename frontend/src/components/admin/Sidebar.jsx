@@ -4,16 +4,12 @@ import {
   FaBox,
   FaSignOutAlt,
 } from "react-icons/fa";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import OutsideClickHandler from "react-outside-click-handler";
-// import handleAsync from "../../utils/handleAsync";
-// import { toast } from "react-toastify";
-// import { logoutUser } from "../Redux/UserSlice";
-// import { useDispatch } from "react-redux";
-// import api from "../../utils/api";
+
 import { Outlet } from "react-router-dom";
 const AdmNavbar = () => {
-  const [isOpen, setIsOpen] = useState(false); // Sidebar toggle
+  const [isOpen] = useState(false); // Sidebar toggle
   const [isMenuOpen, setIsMenuOpen] = useState(false); // Mobile menu toggle
 
   const toggleMenu = () => {
