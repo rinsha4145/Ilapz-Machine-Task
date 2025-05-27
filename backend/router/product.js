@@ -13,19 +13,9 @@ import {
   getcategory
 } from '../controller/product.js';
 import { adminAuthMiddleware } from '../middleware/authentication.js';
+import { upload } from '../middleware/upload.js';
 
 const router = express.Router();
-
-// Multer config for image uploads
-const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    cb(null, 'uploads/');
-  },
-  filename(req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
-  }
-});
-const upload = multer({ storage });
 
 // Routes
 router
@@ -35,8 +25,8 @@ router
 .get('/categories',getcategory)
 .get('/', getAllProducts)
 .get('/:id', getProductById)
-.post('/', adminAuthMiddleware, upload.single('image'), createProduct)
-.put('/:id', adminAuthMiddleware, upload.single('image'), updateProduct)
-.delete('/:id', adminAuthMiddleware, deleteProduct)
+.post('/add', adminAuthMiddleware, upload.array('image', 5), createProduct)
+.put('/update/:id', adminAuthMiddleware, upload.array('image', 5), updateProduct)
+.delete('/delete/:id', adminAuthMiddleware, deleteProduct)
 
 export default router

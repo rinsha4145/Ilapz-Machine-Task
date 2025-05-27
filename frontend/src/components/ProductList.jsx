@@ -1,51 +1,40 @@
-import React, { useState, useEffect } from "react";
+import React, {  useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import api, { socket } from "../utils/api";
-import { setProduct } from "../redux/features/Product";
+import { addProductToList, setProduct, updateProductInList } from "../redux/features/Product";
 
 function ProductList() {
 
-  // Fetch all products or search results
-  
-    const [products, setProducts] = useState([]);
+   const dispatch = useDispatch();
+  const products = useSelector((state) => state.product);
 
-    const dispatch=useDispatch()
   const fetchProducts = async () => {
-  try {
-    const res = await api.get("/products");
-    console.log(res)
-    dispatch(setProduct(res.data)); 
-    setProducts(res.data);
-  } catch (err) {
-    console.error('Failed to load products', err);
-  }
-};
+    try {
+      const res = await api.get("/products");
+      dispatch(setProduct(res.data));
+    } catch (err) {
+      console.error("Failed to load products", err);
+    }
+  };
 
-useEffect(() => {
-  fetchProducts();
-}, []);
-
-  // Real-time update listeners
   useEffect(() => {
-    // Listen for product added event
+    fetchProducts();
+
     socket.on("productAdded", (newProduct) => {
-      setProducts((prev) => [newProduct, ...prev]);
+      console.log("Received new product via socket", newProduct);
+      dispatch(addProductToList(newProduct));
     });
 
-    // Listen for product updated event
     socket.on("productUpdated", (updatedProduct) => {
-      setProducts((prev) =>
-        prev.map((p) => (p._id === updatedProduct._id ? updatedProduct : p))
-      );
+      dispatch(updateProductInList(updatedProduct));
     });
 
-    // Cleanup on unmount
     return () => {
       socket.off("productAdded");
       socket.off("productUpdated");
     };
-  }, [socket]);
+  }, [dispatch]);
 
   return (
     <>

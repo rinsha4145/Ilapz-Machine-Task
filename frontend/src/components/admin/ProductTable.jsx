@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import api from "../../utils/api";
+import {  useNavigate } from "react-router-dom";
 
 export default function ProductTable() {
-  const product = useSelector((state) => state.product.items || []);
-
+      const product = useSelector((state) => state.product);
+  console.log(product)
+const navigate=useNavigate()
   const [products, setProducts] = useState(product);
   const [filteredData, setFilteredData] = useState(product);
 
@@ -17,7 +19,7 @@ export default function ProductTable() {
   const [selectedBrand, setSelectedBrand] = useState('');
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5);
+  const [itemsPerPage] = useState(10);
 
   useEffect(() => {
     api.get('/products/categories').then(res => setTypes(res.data));
@@ -125,7 +127,7 @@ export default function ProductTable() {
       </div>
       <button
           className="px-2 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-500"
-      
+      onClick={()=>navigate('/admin/add-product')}
         >
           Add Product
         </button>
@@ -152,7 +154,7 @@ export default function ProductTable() {
                 <td className="py-2 px-4 border">{item.brand}</td>
                 <td className="py-2 px-4 border">₹{item.price}</td>
                 <td className="py-2 px-4 border h-full flex">
-                    <button className="bg-green-500 text-white px-3 py-1 rounded mr-2">
+                    <button className="bg-green-500 text-white px-3 py-1 rounded mr-2"  onClick={()=>navigate(`/admin/update-product/${item._id}`)}>
                       Edit
                     </button>
                     <button className="bg-red-500 text-white px-3 py-1 rounded">

@@ -12,12 +12,11 @@ const productSchema = new mongoose.Schema({
   seatingheight: { type: Number, required: true },
   weight: { type: Number, required: true },
   price: { type: Number, required: true },
-  oldprice: { type: Number, required: true },
+  oldprice: { type: Number},
   off: { type: Number},
-  rating: { type: Number, required: true },
-  ratingstar: { type: Number, required: true },
-  image: { type: Array, required: true },
-  
+  rating: { type: Number, },
+  ratingstar: { type: Number, },
+  image: { type: [String], required: true },
   material: { type: String, required: true },
   isDelete: { type: Boolean, default: false }
 });

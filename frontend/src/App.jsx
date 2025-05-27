@@ -8,6 +8,7 @@ import AdminLogin from "./components/admin/AdminLogin";
 import AdmNavbar from "./components/admin/Sidebar";
 import ProductTable from "./components/admin/ProductTable";
 import { ToastContainer } from "react-toastify";
+import UpdateProduct from "./components/admin/ProductUpdate";
 
 function App() {
   const user = useSelector((state) => state.auth.admin);
@@ -19,13 +20,14 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<ProductDetail />} />
-        <Route path="/add" element={<AddProductForm />} />
         <Route path="/admlogin" element={<AdminLogin />} />
 
         {/* Protected Admin Routes */}
         <Route element={<AdminProtectedRoute isAdmin={isAdmin} />}>
           <Route path="/admin" element={<AdmNavbar />}>
             <Route path="product" element={<ProductTable />} />
+             <Route path="add-product" element={<AddProductForm />} />
+              <Route path="update-product/:id" element={< UpdateProduct/>} />
           </Route>
         </Route>
       </Routes>

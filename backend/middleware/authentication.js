@@ -8,7 +8,7 @@ export const adminAuthMiddleware = async (req, res, next) => {
       return res.status(401).json({ message: "Authentication token missing" }); // Return to avoid further execution
     }
 
-    jwt.verify(admtoken, process.env.ADM_JWT_KEY, (err, user) => {
+    jwt.verify(admtoken, process.env.JWT_KEY, (err, user) => {
       if (err) {
         console.error("JWT verification error:", err);
         return res.status(403).json({ message: "Invalid token" }); // Return here as well

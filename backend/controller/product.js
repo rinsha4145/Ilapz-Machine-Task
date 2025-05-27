@@ -27,6 +27,7 @@ export const getAllProducts = async (req, res) => {
 // GET product by ID
 export const getProductById = async (req, res) => {
   try {
+    console.log(req.params.id)
     const product = await Product.findById(req.params.id);
     if (!product) return res.status(404).json({ message: 'Product not found' });
     res.json(product);
@@ -65,16 +66,52 @@ export const search= async (req, res) => {
 // POST create product
 export const createProduct = async (req, res) => {
   try {
-    const { name, description, price } = req.body;
-    const image = req.file ? `/uploads/${req.file.filename}` : '';
+    const {
+      name,
+      description,
+      price,
+      category,
+      shortname,
+      brand,
+      collections,
+      dimensionscm,
+      dimensionsinch,
+      type,
+      seatingheight,
+      weight,
+      oldprice,
+      off,
+      material,
+    } = req.body;
 
-    const product = new Product({ name, description, price, image });
+    // Use file.path since CloudinaryStorage provides full URL in file.path
+    const imagePaths = req.files ? req.files.map((file) => file.path) : [];
+    const product = new Product({
+      name,
+      description,
+      price,
+      category,
+      shortname,
+      brand,
+      collections,
+      dimensionscm,
+      dimensionsinch,
+      type,
+      seatingheight,
+      weight,
+      oldprice,
+      off,
+      material,
+      image: imagePaths,
+    });
+
     await product.save();
 
-    req.io.emit('productAdded', product);
+    req.io.emit("productAdded", product); 
     res.status(201).json(product);
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
