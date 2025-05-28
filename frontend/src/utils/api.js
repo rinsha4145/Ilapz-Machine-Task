@@ -1,6 +1,6 @@
 import axios from "axios";
 import { io } from "socket.io-client";
- const BASE_URL = "http://localhost:4000";
+ const BASE_URL = import.meta.env.VITE_URL;
 const api=axios.create({
     baseURL:`${BASE_URL}/api`,
     withCredentials:true

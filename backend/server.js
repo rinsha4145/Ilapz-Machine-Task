@@ -21,7 +21,7 @@ const server = http.createServer(app);
 // ✅ Proper CORS settings
 const io = new SocketIoServer(server, {
   cors: {
-    origin: 'http://localhost:5173',
+    origin:process.env.URL,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
   },
@@ -29,7 +29,7 @@ const io = new SocketIoServer(server, {
 
 // ✅ Middleware
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: process.env.URL,
   credentials: true,
 }));
 app.use(cookieParser()); // ✅ Required for handling cookies
