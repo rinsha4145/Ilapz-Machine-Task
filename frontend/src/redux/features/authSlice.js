@@ -12,7 +12,6 @@ const adminSlice = createSlice({
       state.admin = action.payload;
     },
     
-    
   },
 });
 
