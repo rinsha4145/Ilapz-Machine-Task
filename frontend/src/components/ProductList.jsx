@@ -26,8 +26,8 @@ function ProductList() {
     <>
       <div className="mx-auto max-w-screen-2xl">
         <main className="grid grid-cols-2 gap-x-6 gap-y-10 px-2 pb-20 sm:grid-cols-3 sm:px-8 lg:mt-16 lg:grid-cols-4 lg:gap-x-4 lg:px-0">
-          {products.map((product) => (
-            <article className="relative">
+          {products.map((product,index) => (
+            <article className="relative" key={index}>
               <div className="aspect-square overflow-hidden">
                 <Link
                   to={`/product/${product._id}`}
