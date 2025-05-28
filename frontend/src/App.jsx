@@ -13,7 +13,6 @@ import UpdateProduct from "./components/admin/ProductUpdate";
 function App() {
   const user = useSelector((state) => state.auth.admin);
   const isAdmin = user && user.role === "admin";
-  console.log(user)
 
   return (
     <>
