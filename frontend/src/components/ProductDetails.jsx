@@ -150,7 +150,7 @@ console.log(id)
               </div>
 
               {/* Conditional rendering for user role */}
-              {user?.role === "user" && (
+              {!user?.role === "admin" && (
                 <>
                   {/* Action Buttons */}
                   <div className="space-y-3">

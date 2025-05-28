@@ -3,22 +3,7 @@ import Product from '../model/Product.js';
 // GET all products
 export const getAllProducts = async (req, res) => {
   try {
-    const { page = 1, limit = 20, q } = req.query;
-
-    const baseQuery = { isDelete: false };
-
-    if (q) {
-      baseQuery.$or = [
-        { name: { $regex: q, $options: 'i' } },
-        { description: { $regex: q, $options: 'i' } }
-      ];
-    }
-
-    const products = await Product.find(baseQuery)
-      .skip((page - 1) * limit)
-      .limit(Number(limit))
-      .sort({ createdAt: -1 });
-
+ const products = await Product.find({ isDelete: false });
     res.json(products);
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
